@@ -1,0 +1,10 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.EarthExplorer" parent="Theme.AppCompat">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:statusBarColor">@color/black</item>
+    </style>
+
+    <style name="Theme.EarthExplorer" parent="Base.Theme.EarthExplorer" />
+</resources>
