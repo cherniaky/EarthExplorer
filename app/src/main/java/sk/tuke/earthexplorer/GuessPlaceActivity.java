@@ -6,11 +6,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.OnStreetViewPanoramaReadyCallback;
 import com.google.android.gms.maps.StreetViewPanorama;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.SupportStreetViewPanoramaFragment;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -21,13 +25,15 @@ public class GuessPlaceActivity extends AppCompatActivity {
     View mapView;
     View scoreBoard;
     private StreetViewPanorama streetView;
+    private GoogleMap mGoogleMap;
+    private GoogleMapClass googleMapClass;
+    private int round = 1;
 
     private LatLng correctPlace;
     private LatLng selectedPlace = null;
-    private Set<LatLng> correctPlaceList;
+    private List<LatLng> correctPlaceList;
 
     @Override
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityGuessPlaceBinding.inflate(getLayoutInflater());
@@ -36,7 +42,7 @@ public class GuessPlaceActivity extends AppCompatActivity {
         mapView = findViewById(R.id.cl_mapView);
         scoreBoard = findViewById(R.id.ll_ScoreBoard);
         correctPlaceList = Constants.getFamousPlaceList();
-        correctPlace = correctPlaceList.iterator().next();
+        correctPlace = correctPlaceList.get(0);
 
         SupportStreetViewPanoramaFragment streetViewPanoramaFragment = (SupportStreetViewPanoramaFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_StreetView);
         streetViewPanoramaFragment.getStreetViewPanoramaAsync(new OnStreetViewPanoramaReadyCallback() {
@@ -47,6 +53,129 @@ public class GuessPlaceActivity extends AppCompatActivity {
             }
         });
 
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_Fragment);
+        mapFragment.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(@NonNull GoogleMap googleMap) {
+                mGoogleMap = googleMap;
+                googleMapClass = new GoogleMapClass(googleMap, GuessPlaceActivity.this);
+                onMapClick();
+            }
+        });
 
+        binding.fbOpenMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SlideAnimation.slideUp(mapView);
+            }
+        });
+        binding.closeMapButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SlideAnimation.slideDown(mapView);
+            }
+        });
+
+        binding.markPlaceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (selectedPlace != null) {
+                    googleMapClass.addBlueMarker(correctPlace);
+                    googleMapClass.addPolyline(correctPlace, selectedPlace);
+                    googleMapClass.zoomOnMap();
+                    mGoogleMap.setOnMapClickListener(null);
+                    setTotalScore();
+                    showScoreBoard();
+//                    setPlaceModel();
+                    selectedPlace = null;
+                }
+                if (round == 5) {
+                    binding.btnNextRound.setText("View Summary");
+                }
+            }
+        });
+
+        binding.btnNextRound.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (round < 5) {
+                    round++;
+                    binding.tvRound.setText(round + "/5");
+                    correctPlace = correctPlaceList.get(round - 1);
+                    googleMapClass.setCorrectPlace(correctPlace);
+                    streetView.setPosition(correctPlace);
+                    SlideAnimation.slideUp(scoreBoard);
+                    SlideAnimation.slideDown(mapView);
+                    mGoogleMap.clear();
+                    binding.markPlaceButton.setVisibility(View.GONE);
+                    onMapClick();
+                    googleMapClass.zoomOnMap(new LatLng(0.0, 0.0), 1f);
+                } else {
+//                    endGame();
+                }
+            }
+        });
+
+        binding.fbHintButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                googleMapClass.addCircle();
+                binding.fbHintButton.setVisibility(View.GONE);
+            }
+        });
     }
+
+    private void onMapClick() {
+        mGoogleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(@NonNull LatLng latLng) {
+                selectedPlace = latLng;
+                googleMapClass.setSelectedPlace(latLng);
+                googleMapClass.setCorrectPlace(correctPlace);
+                googleMapClass.addSelectedPlaceMarker(latLng);
+
+                binding.markPlaceButton.setVisibility(View.VISIBLE);
+            }
+        });
+    }
+
+    private void showScoreBoard() {
+        binding.tvScore.setText("You got " + getScore() + " points");
+        binding.tvDistance.setText("You are " + googleMapClass.getDistance() + " kilometers away");
+        binding.pbScore.setProgress(getScore());
+        SlideAnimation.slideDown(scoreBoard);
+    }
+
+    private int getScore() {
+        int distance = googleMapClass.getDistance();
+        return Math.max(0, 5000 - 2 * distance);
+    }
+
+    private int totalScore = 0;
+
+    private void setTotalScore() {
+        totalScore += getScore();
+        binding.tvFinalScore.setText(new Integer(totalScore).toString());
+    }
+
+//    private val placeModelList = ArrayList < PlaceModel > (5)
+//
+//    private fun setPlaceModel() {
+//        val place = PlaceModel(
+//                correctPlace,
+//                selectedPlace,
+//                getScore(),
+//                googleMapClass.getDistance()
+//        )
+//
+//        placeModelList.add(place)
+//    }
+//
+//    private void endGame() {
+//        val intent = Intent(this, SummeryActivity:: class.java)
+//        intent.putExtra("totalScore", totalScore)
+//        intent.putExtra("dataList", placeModelList)
+//        startActivity(intent)
+//        finish()
+//    }
 }

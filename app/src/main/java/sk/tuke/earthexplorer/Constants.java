@@ -35,13 +35,13 @@ class Constants {
             new LatLng(38.625419, -90.190066)
     );
 
-    static Set<LatLng> getFamousPlaceList() {
+    static List<LatLng> getFamousPlaceList() {
         Set<LatLng> list = new HashSet<>();
         Random rand = new Random();
         while (list.size() < 5) {
             int n = rand.nextInt(famousPlaceList.size());
             list.add(famousPlaceList.get(n));
         }
-        return list;
+        return new ArrayList<>(list);
     }
 }
