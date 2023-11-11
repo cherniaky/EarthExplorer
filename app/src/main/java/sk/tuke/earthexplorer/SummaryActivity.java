@@ -35,7 +35,7 @@ public class SummaryActivity extends AppCompatActivity {
         dataList = getIntent().getParcelableArrayListExtra("dataList");
         setAdapter(dataList);
         binding.tvFinalScore.setText(totalScore + " points");
-        binding.tvFinalDistance.setText(getFinalScore(dataList) + " kilometers");
+        binding.tvFinalDistance.setText(getFinalScore(dataList) + " km");
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.summary_map_fragment);
         mapFragment.getMapAsync(new OnMapReadyCallback() {

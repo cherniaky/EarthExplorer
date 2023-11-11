@@ -45,7 +45,7 @@ public class GameSummaryAdapter extends RecyclerView.Adapter<GameSummaryAdapter.
         int distance = dataList.get(position).distance;
         int score = dataList.get(position).score;
         holder.tvRound.setText(new Integer(position + 1).toString());
-        holder.tvDistance.setText(distance + " miles");
+        holder.tvDistance.setText(distance + " km");
         holder.tvScore.setText(score + " points");
     }
 
