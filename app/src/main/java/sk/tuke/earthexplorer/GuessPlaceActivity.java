@@ -3,7 +3,9 @@ package sk.tuke.earthexplorer;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -14,6 +16,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.SupportStreetViewPanoramaFragment;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -86,7 +89,7 @@ public class GuessPlaceActivity extends AppCompatActivity {
                     mGoogleMap.setOnMapClickListener(null);
                     setTotalScore();
                     showScoreBoard();
-//                    setPlaceModel();
+                    setPlaceModel();
                     selectedPlace = null;
                 }
                 if (round == 5) {
@@ -111,7 +114,7 @@ public class GuessPlaceActivity extends AppCompatActivity {
                     onMapClick();
                     googleMapClass.zoomOnMap(new LatLng(0.0, 0.0), 1f);
                 } else {
-//                    endGame();
+                    endGame();
                 }
             }
         });
@@ -158,24 +161,25 @@ public class GuessPlaceActivity extends AppCompatActivity {
         binding.tvFinalScore.setText(new Integer(totalScore).toString());
     }
 
-//    private val placeModelList = ArrayList < PlaceModel > (5)
-//
-//    private fun setPlaceModel() {
-//        val place = PlaceModel(
-//                correctPlace,
-//                selectedPlace,
-//                getScore(),
-//                googleMapClass.getDistance()
-//        )
-//
-//        placeModelList.add(place)
-//    }
-//
-//    private void endGame() {
-//        val intent = Intent(this, SummeryActivity:: class.java)
-//        intent.putExtra("totalScore", totalScore)
-//        intent.putExtra("dataList", placeModelList)
-//        startActivity(intent)
-//        finish()
-//    }
+    private ArrayList<PlaceModel> placeModelList = new ArrayList<>(5);
+
+
+    private void setPlaceModel() {
+        PlaceModel place = new PlaceModel(
+                correctPlace,
+                selectedPlace,
+                getScore(),
+                googleMapClass.getDistance()
+        );
+
+        placeModelList.add(place);
+    }
+
+    private void endGame() {
+        Intent intent = new Intent(GuessPlaceActivity.this, SummaryActivity.class);
+        intent.putExtra("totalScore", totalScore);
+        intent.putParcelableArrayListExtra("dataList", placeModelList);
+        startActivity(intent);
+        finish();
+    }
 }
