@@ -33,16 +33,15 @@ public class SummaryActivity extends AppCompatActivity {
 
         int totalScore = getIntent().getIntExtra("totalScore", 0);
         dataList = getIntent().getParcelableArrayListExtra("dataList");
-//        setAdapter(dataList);
+        setAdapter(dataList);
         binding.tvFinalScore.setText(totalScore + " points");
-        binding.tvFinalDistance.setText(getFinalScore(dataList) + " miles");
+        binding.tvFinalDistance.setText(getFinalScore(dataList) + " kilometers");
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.summary_map_fragment);
         mapFragment.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(@NonNull GoogleMap googleMap) {
                 GoogleMapClass googleMapClass = new GoogleMapClass(googleMap, SummaryActivity.this);
-                System.out.println(dataList);
 
                 for (PlaceModel place : dataList) {
                     googleMapClass.addBlueMarker(place.correctPlace);
@@ -72,8 +71,8 @@ public class SummaryActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.rv_game_summary);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-//        RecyclerView.Adapter adapter = new GameSummaryAdapter(dataList);
-//        recyclerView.setAdapter(adapter);
+        RecyclerView.Adapter adapter = new GameSummaryAdapter(dataList);
+        recyclerView.setAdapter(adapter);
     }
 
 
