@@ -1,8 +1,10 @@
 package sk.tuke.earthexplorer;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -66,13 +68,13 @@ public class GuessPlaceActivity extends AppCompatActivity {
         binding.fbOpenMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SlideAnimation.slideUp(mapView);
+                GuessPlaceActivity.this.slideUp(mapView);
             }
         });
         binding.closeMapButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SlideAnimation.slideDown(mapView);
+                GuessPlaceActivity.this.slideDown(mapView);
             }
         });
 
@@ -104,8 +106,8 @@ public class GuessPlaceActivity extends AppCompatActivity {
                     correctPlace = correctPlaceList.get(round - 1);
                     googleMapClass.setCorrectPlace(correctPlace);
                     streetView.setPosition(correctPlace);
-                    SlideAnimation.slideUp(scoreBoard);
-                    SlideAnimation.slideDown(mapView);
+                    GuessPlaceActivity.this.slideUp(scoreBoard);
+                    GuessPlaceActivity.this.slideDown(mapView);
                     mGoogleMap.clear();
                     binding.markPlaceButton.setVisibility(View.GONE);
                     onMapClick();
@@ -123,6 +125,37 @@ public class GuessPlaceActivity extends AppCompatActivity {
                 binding.fbHintButton.setVisibility(View.GONE);
             }
         });
+
+        binding.fbUnlockButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GuessPlaceActivity.this, MiniGameActivity.class);
+                startActivityForResult(intent, 69);
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 69) {
+            if (resultCode == Activity.RESULT_OK) {
+                boolean result = data.getBooleanExtra("result", false);
+                if (result) {
+                    binding.fbHintButton.setVisibility(View.VISIBLE);
+                }
+
+            }
+        }
+    }
+
+    private void slideUp(View view) {
+        view.animate().translationY(-view.getHeight()).setDuration(500);
+    }
+
+    private void slideDown(View view) {
+        view.animate().translationY(view.getHeight()).setDuration(500);
     }
 
     private void onMapClick() {
@@ -143,7 +176,7 @@ public class GuessPlaceActivity extends AppCompatActivity {
         binding.tvScore.setText("You got " + getScore() + " points");
         binding.tvDistance.setText("You are " + googleMapClass.getDistance() + " kilometers away");
         binding.pbScore.setProgress(getScore());
-        SlideAnimation.slideDown(scoreBoard);
+        this.slideDown(scoreBoard);
     }
 
     private int getScore() {
@@ -177,6 +210,6 @@ public class GuessPlaceActivity extends AppCompatActivity {
         intent.putExtra("totalScore", totalScore);
         intent.putParcelableArrayListExtra("dataList", placeModelList);
         startActivity(intent);
-        finish();
+//        finish();
     }
 }
