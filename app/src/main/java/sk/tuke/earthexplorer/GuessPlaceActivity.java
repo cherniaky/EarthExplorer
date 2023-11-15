@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.View;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -18,8 +17,6 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
 import sk.tuke.earthexplorer.databinding.ActivityGuessPlaceBinding;
 
@@ -44,7 +41,7 @@ public class GuessPlaceActivity extends AppCompatActivity {
 
         mapView = findViewById(R.id.cl_mapView);
         scoreBoard = findViewById(R.id.ll_ScoreBoard);
-        correctPlaceList = Constants.getFamousPlaceList();
+        correctPlaceList = FamousPlacesData.getFamousPlacesList();
         correctPlace = correctPlaceList.get(0);
 
         SupportStreetViewPanoramaFragment streetViewPanoramaFragment = (SupportStreetViewPanoramaFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_StreetView);

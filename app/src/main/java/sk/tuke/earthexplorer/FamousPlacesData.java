@@ -8,10 +8,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
-import java.util.TreeSet;
 
-class Constants {
-    private static List<LatLng> famousPlaceList = Arrays.asList(
+class FamousPlacesData {
+    private static List<LatLng> data = Arrays.asList(
             new LatLng(40.690667, -74.046202),
             new LatLng(48.858994, 2.293695),
             new LatLng(51.500965, -0.124230),
@@ -35,12 +34,12 @@ class Constants {
             new LatLng(38.625419, -90.190066)
     );
 
-    static List<LatLng> getFamousPlaceList() {
+    static List<LatLng> getFamousPlacesList() {
         Set<LatLng> list = new HashSet<>();
         Random rand = new Random();
         while (list.size() < 5) {
-            int n = rand.nextInt(famousPlaceList.size());
-            list.add(famousPlaceList.get(n));
+            int n = rand.nextInt(data.size());
+            list.add(data.get(n));
         }
         return new ArrayList<>(list);
     }

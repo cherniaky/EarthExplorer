@@ -10,27 +10,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class GameSummaryAdapter extends RecyclerView.Adapter<GameSummaryAdapter.ViewHolder> {
+public class GameSummaryAdapter extends RecyclerView.Adapter<ViewHolder> {
     private ArrayList<PlaceModel> dataList;
 
     GameSummaryAdapter(ArrayList<PlaceModel> dataList) {
         this.dataList = dataList;
-    }
-
-    class ViewHolder extends RecyclerView.ViewHolder {
-        View view;
-        TextView tvRound;
-        TextView tvDistance;
-        TextView tvScore;
-
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            this.view = itemView;
-            tvRound = view.findViewById(R.id.tv_summary_round);
-            tvDistance = view.findViewById(R.id.tv_summary_distance);
-            tvScore = view.findViewById(R.id.tv_summary_score);
-        }
-
     }
 
     @NonNull
