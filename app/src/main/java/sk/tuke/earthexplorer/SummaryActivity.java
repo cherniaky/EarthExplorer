@@ -44,8 +44,8 @@ public class SummaryActivity extends AppCompatActivity {
                 GoogleMapClass googleMapClass = new GoogleMapClass(googleMap, SummaryActivity.this);
 
                 for (PlaceModel place : dataList) {
-                    googleMapClass.addBlueMarker(place.correctPlace);
-                    googleMapClass.addRedMarker(place.guessedPlace);
+                    googleMapClass.addCorrectMarker(place.correctPlace);
+                    googleMapClass.addGuessMarker(place.guessedPlace);
                     googleMapClass.addPolyline(place.correctPlace, place.guessedPlace);
                 }
             }

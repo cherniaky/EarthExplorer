@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.OnStreetViewPanoramaReadyCallback;
@@ -16,6 +18,7 @@ import com.google.android.gms.maps.StreetViewPanorama;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.SupportStreetViewPanoramaFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +64,10 @@ public class GuessPlaceActivity extends AppCompatActivity {
             public void onMapReady(@NonNull GoogleMap googleMap) {
                 mGoogleMap = googleMap;
                 googleMapClass = new GoogleMapClass(googleMap, GuessPlaceActivity.this);
+                googleMapClass.setCorrectPlace(correctPlace);
                 onMapClick();
+
+                zoomOnSlovensko();
             }
         });
 
@@ -82,7 +88,7 @@ public class GuessPlaceActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (selectedPlace != null) {
-                    googleMapClass.addBlueMarker(correctPlace);
+                    googleMapClass.addCorrectMarker(correctPlace);
                     googleMapClass.addPolyline(correctPlace, selectedPlace);
                     googleMapClass.zoomOnMap();
                     mGoogleMap.setOnMapClickListener(null);
@@ -111,7 +117,8 @@ public class GuessPlaceActivity extends AppCompatActivity {
                     mGoogleMap.clear();
                     binding.markPlaceButton.setVisibility(View.GONE);
                     onMapClick();
-                    googleMapClass.zoomOnMap(new LatLng(0.0, 0.0), 1f);
+
+                    zoomOnSlovensko();
                 } else {
                     endGame();
                 }
@@ -148,6 +155,15 @@ public class GuessPlaceActivity extends AppCompatActivity {
 
             }
         }
+    }
+
+    private void zoomOnSlovensko(){
+        LatLngBounds.Builder builder = LatLngBounds.builder();
+        builder.include(new LatLng(48.404669, 16.664393));
+        builder.include(new LatLng(49.085405, 22.670359));
+        LatLngBounds bounds = builder.build();
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, 200);
+        mGoogleMap.animateCamera(cameraUpdate);
     }
 
     private void slideUp(View view) {

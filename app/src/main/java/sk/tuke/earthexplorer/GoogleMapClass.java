@@ -1,8 +1,6 @@
 package sk.tuke.earthexplorer;
 
-import android.animation.FloatArrayEvaluator;
 import android.content.Context;
-import android.graphics.Color;
 import android.location.Location;
 
 import androidx.core.content.ContextCompat;
@@ -10,20 +8,13 @@ import androidx.core.content.ContextCompat;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CircleOptions;
-import com.google.android.gms.maps.model.Dash;
-import com.google.android.gms.maps.model.Gap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.PatternItem;
 import com.google.android.gms.maps.model.PolylineOptions;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 
 public class GoogleMapClass {
@@ -69,14 +60,14 @@ public class GoogleMapClass {
         );
     }
 
-    public void addBlueMarker(LatLng position) {
+    public void addCorrectMarker(LatLng position) {
         mGoogleMap.addMarker(new MarkerOptions()
                 .position(position)
                 .title("Correct")
         );
     }
 
-    public void addRedMarker(LatLng position) {
+    public void addGuessMarker(LatLng position) {
         mGoogleMap.addMarker(new MarkerOptions()
                 .position(position)
                 .title("Guess")
