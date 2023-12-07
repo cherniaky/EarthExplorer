@@ -43,6 +43,15 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment:2.7.3")
     implementation("androidx.navigation:navigation-ui:2.7.3")
 
+
+    var room_version = "1.1.1"
+    implementation("android.arch.persistence.room:runtime:$room_version")
+    annotationProcessor("android.arch.persistence.room:compiler:$room_version")
+
+    room_version = "2.4.3"
+    implementation("androidx.room:room-runtime:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
+
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
