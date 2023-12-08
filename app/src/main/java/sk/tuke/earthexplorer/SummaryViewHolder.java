@@ -6,13 +6,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-class ViewHolder extends RecyclerView.ViewHolder {
+class SummaryViewHolder extends RecyclerView.ViewHolder {
     View view;
     TextView tvRound;
     TextView tvDistance;
     TextView tvScore;
 
-    public ViewHolder(@NonNull View itemView) {
+    public SummaryViewHolder(@NonNull View itemView) {
         super(itemView);
         this.view = itemView;
         tvRound = view.findViewById(R.id.tv_summary_round);

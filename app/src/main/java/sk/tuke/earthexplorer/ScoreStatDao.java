@@ -15,5 +15,5 @@ public interface ScoreStatDao {
     ScoreStat getById(int Id);
 
     @Insert
-    void insertMovies(ScoreStat... scoreStats);
+    void insertScoreStats(ScoreStat... scoreStats);
 }

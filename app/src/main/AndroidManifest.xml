@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" >
+    xmlns:tools="http://schemas.android.com/tools">
 
     <application
         android:allowBackup="true"
@@ -11,20 +11,18 @@
         android:roundIcon="@drawable/app_icon"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar"
-        tools:targetApi="31" >
+        tools:targetApi="31">
         <activity
-            android:name=".ScoreStatListActivity"
+            android:name=".ScoreStatActivity"
             android:exported="false"
-            android:label="@string/title_activity_score_stat_list"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:label="@string/title_activity_score_stat_list" />
         <activity
             android:name=".MiniGameActivity"
             android:exported="false" />
         <activity
             android:name=".SummaryActivity"
             android:exported="false"
-            android:label="@string/title_activity_summary"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:label="@string/title_activity_summary" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -35,7 +33,7 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

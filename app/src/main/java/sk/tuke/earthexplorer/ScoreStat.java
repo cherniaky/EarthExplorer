@@ -8,9 +8,6 @@ import java.util.Date;
 
 @Entity
 public class ScoreStat {
-    public ScoreStat() {
-    }
-
     public ScoreStat(String user, String date, Integer score, Integer time) {
         setUser(user);
         setDate(date);

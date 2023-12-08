@@ -1,6 +1,9 @@
 package sk.tuke.earthexplorer;
 
+import android.content.Context;
 import android.content.Intent;
+import android.icu.util.LocaleData;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -15,7 +18,12 @@ import android.view.View;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.lang.ref.WeakReference;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 import sk.tuke.earthexplorer.databinding.ActivitySummaryBinding;
 
@@ -36,6 +44,12 @@ public class SummaryActivity extends AppCompatActivity {
         setAdapter(dataList);
         binding.tvFinalScore.setText(totalScore + " points");
         binding.tvFinalDistance.setText(getFinalScore(dataList) + " km");
+
+        DbAddData addDataTask = new DbAddData();
+        LocalDate today = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String formattedDate = today.format(formatter);
+        addDataTask.execute(new ScoreStat("you", formattedDate, getFinalScore(dataList), 420));
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.summary_map_fragment);
         mapFragment.getMapAsync(new OnMapReadyCallback() {
@@ -65,6 +79,23 @@ public class SummaryActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    class DbAddData extends AsyncTask<ScoreStat, Integer, List<ScoreStat>> {
+
+        @Override
+        protected List<ScoreStat> doInBackground(ScoreStat... directors) {
+            ScoreStatDatabase db = DbTools.getDbContext(new WeakReference<>(SummaryActivity.this));
+            db.scoreStatDao().insertScoreStats(directors);
+
+            return db.scoreStatDao().getAll();
+        }
+
+        @Override
+        protected void onPostExecute(List<ScoreStat> directors) {
+            super.onPostExecute(directors);
+        }
+
     }
 
     private void setAdapter(ArrayList<PlaceModel> dataList) {

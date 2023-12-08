@@ -1,19 +1,16 @@
 package sk.tuke.earthexplorer;
 
-import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.View;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-
+import java.io.Console;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.List;
 
 import sk.tuke.earthexplorer.databinding.ActivityScoreStatBinding;
 
@@ -21,7 +18,7 @@ import sk.tuke.earthexplorer.databinding.ActivityScoreStatBinding;
 public class ScoreStatActivity extends AppCompatActivity {
 
     private ActivityScoreStatBinding binding;
-    private ArrayList<PlaceModel> dataList;
+    private ArrayList<ScoreStat> dataList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,23 +27,34 @@ public class ScoreStatActivity extends AppCompatActivity {
         binding = ActivityScoreStatBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        DbGetData dbGetDataTask = new DbGetData();
+        dbGetDataTask.execute();
     }
 
-    private void setAdapter(ArrayList<PlaceModel> dataList) {
-        RecyclerView recyclerView = findViewById(R.id.rv_game_summary);
+    private void setAdapter(List<ScoreStat> dataList) {
+        RecyclerView recyclerView = findViewById(R.id.rv_stats_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        RecyclerView.Adapter adapter = new GameSummaryAdapter(dataList);
+        RecyclerView.Adapter adapter = new ScoreStatsListAdapter(new ArrayList<>(dataList));
         recyclerView.setAdapter(adapter);
     }
 
+    class DbGetData extends AsyncTask<Void, Integer, List<ScoreStat>> {
 
-    private int getFinalScore(ArrayList<PlaceModel> dataList) {
-        int finalDistance = 0;
-        for (PlaceModel i : dataList) {
-            finalDistance += i.distance;
+        @Override
+        protected List<ScoreStat> doInBackground(Void... voids) {
+            ScoreStatDatabase db = DbTools.getDbContext(new WeakReference<>(ScoreStatActivity.this));
+            List<ScoreStat> data = db.scoreStatDao().getAll();
+
+            return data;
         }
 
-        return finalDistance;
+        @Override
+        protected void onPostExecute(List<ScoreStat> scoreStatList) {
+            super.onPostExecute(scoreStatList);
+
+            setAdapter(scoreStatList);
+        }
+
     }
 }
