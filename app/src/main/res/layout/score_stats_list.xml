@@ -8,7 +8,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:orientation="horizontal">
+        android:background="@drawable/textlines"
+        android:orientation="horizontal"
+        android:padding="30px">
 
         <TextView
             android:id="@+id/tv_user"
@@ -24,7 +26,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="4"
-            android:gravity="end"
+            android:textAlignment="center"
             android:text="1234"
             android:textColor="@color/white"
             android:textSize="20sp" />
