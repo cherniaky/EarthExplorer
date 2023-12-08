@@ -5,4 +5,5 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="android:statusBarColor">@color/black</item>
     </style>
+    <style name="Theme.AppCompat.NoActionBar" parent="android:Theme.Material.Light.NoActionBar" />
 </resources>

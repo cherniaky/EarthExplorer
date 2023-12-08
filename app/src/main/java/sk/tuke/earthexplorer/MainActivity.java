@@ -15,7 +15,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Button guessButton = (Button) findViewById(R.id.guess_the_place_btn);
+        Button statsButton = (Button) findViewById(R.id.my_stats_btn);
         guessButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, GuessPlaceActivity.class));
+            }
+        });
+
+        statsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, GuessPlaceActivity.class));
