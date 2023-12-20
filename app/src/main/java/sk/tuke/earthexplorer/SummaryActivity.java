@@ -45,12 +45,6 @@ public class SummaryActivity extends AppCompatActivity {
         binding.tvFinalScore.setText(totalScore + " points");
         binding.tvFinalDistance.setText(getFinalScore(dataList) + " km");
 
-        DbAddData addDataTask = new DbAddData();
-        LocalDate today = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String formattedDate = today.format(formatter);
-        addDataTask.execute(new ScoreStat("you", formattedDate, getFinalScore(dataList), 420));
-
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.summary_map_fragment);
         mapFragment.getMapAsync(new OnMapReadyCallback() {
             @Override
@@ -81,22 +75,6 @@ public class SummaryActivity extends AppCompatActivity {
         });
     }
 
-    class DbAddData extends AsyncTask<ScoreStat, Integer, List<ScoreStat>> {
-
-        @Override
-        protected List<ScoreStat> doInBackground(ScoreStat... directors) {
-            ScoreStatDatabase db = DbTools.getDbContext(new WeakReference<>(SummaryActivity.this));
-            db.scoreStatDao().insertScoreStats(directors);
-
-            return db.scoreStatDao().getAll();
-        }
-
-        @Override
-        protected void onPostExecute(List<ScoreStat> directors) {
-            super.onPostExecute(directors);
-        }
-
-    }
 
     private void setAdapter(ArrayList<PlaceModel> dataList) {
         RecyclerView recyclerView = findViewById(R.id.rv_game_summary);

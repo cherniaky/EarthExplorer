@@ -35,7 +35,7 @@ public class ScoreStatActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.rv_stats_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        RecyclerView.Adapter adapter = new ScoreStatsListAdapter(new ArrayList<>(dataList));
+        RecyclerView.Adapter adapter = new ScoreStatsListAdapter(new ArrayList<>(dataList), ScoreStatActivity.this);
         recyclerView.setAdapter(adapter);
     }
 

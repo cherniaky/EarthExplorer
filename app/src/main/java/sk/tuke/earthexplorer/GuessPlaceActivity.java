@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 
@@ -20,7 +21,11 @@ import com.google.android.gms.maps.SupportStreetViewPanoramaFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
+import java.lang.ref.WeakReference;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import sk.tuke.earthexplorer.databinding.ActivityGuessPlaceBinding;
@@ -37,6 +42,7 @@ public class GuessPlaceActivity extends AppCompatActivity {
     private LatLng correctPlace;
     private LatLng selectedPlace = null;
     private List<LatLng> correctPlaceList;
+    private long start;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +76,8 @@ public class GuessPlaceActivity extends AppCompatActivity {
                 zoomOnSlovensko();
             }
         });
+
+        start = new Date().getTime();
 
         binding.fbOpenMap.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,7 +165,7 @@ public class GuessPlaceActivity extends AppCompatActivity {
         }
     }
 
-    private void zoomOnSlovensko(){
+    private void zoomOnSlovensko() {
         LatLngBounds.Builder builder = LatLngBounds.builder();
         builder.include(new LatLng(48.404669, 16.664393));
         builder.include(new LatLng(49.085405, 22.670359));
@@ -222,10 +230,34 @@ public class GuessPlaceActivity extends AppCompatActivity {
     }
 
     private void endGame() {
+        DbAddData addDataTask = new DbAddData();
+        LocalDate today = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String formattedDate = today.format(formatter);
+        long now = new Date().getTime();
+        addDataTask.execute(new ScoreStat("you", formattedDate, totalScore, (int) ((now - start) / 1000)));
+
+
         Intent intent = new Intent(GuessPlaceActivity.this, SummaryActivity.class);
         intent.putExtra("totalScore", totalScore);
         intent.putParcelableArrayListExtra("dataList", placeModelList);
         startActivity(intent);
-//        finish();
+    }
+
+    class DbAddData extends AsyncTask<ScoreStat, Integer, List<ScoreStat>> {
+
+        @Override
+        protected List<ScoreStat> doInBackground(ScoreStat... directors) {
+            ScoreStatDatabase db = DbTools.getDbContext(new WeakReference<>(GuessPlaceActivity.this));
+            db.scoreStatDao().insertScoreStats(directors);
+
+            return db.scoreStatDao().getAll();
+        }
+
+        @Override
+        protected void onPostExecute(List<ScoreStat> directors) {
+            super.onPostExecute(directors);
+        }
+
     }
 }
