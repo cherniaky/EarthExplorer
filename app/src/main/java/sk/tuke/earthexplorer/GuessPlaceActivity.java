@@ -25,6 +25,7 @@ import java.lang.ref.WeakReference;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -237,26 +238,59 @@ public class GuessPlaceActivity extends AppCompatActivity {
         long now = new Date().getTime();
         addDataTask.execute(new ScoreStat("you", formattedDate, totalScore, (int) ((now - start) / 1000)));
 
-
         Intent intent = new Intent(GuessPlaceActivity.this, SummaryActivity.class);
         intent.putExtra("totalScore", totalScore);
         intent.putParcelableArrayListExtra("dataList", placeModelList);
         startActivity(intent);
     }
 
-    class DbAddData extends AsyncTask<ScoreStat, Integer, List<ScoreStat>> {
+    class DbAddData extends AsyncTask<ScoreStat, Integer, Long> {
 
         @Override
-        protected List<ScoreStat> doInBackground(ScoreStat... directors) {
+        protected Long doInBackground(ScoreStat... scoreStat) {
+            List<ScoreStat> list = new ArrayList<>();
+            for (ScoreStat stat : scoreStat) {
+                list.add(stat);
+            }
             ScoreStatDatabase db = DbTools.getDbContext(new WeakReference<>(GuessPlaceActivity.this));
-            db.scoreStatDao().insertScoreStats(directors);
-
-            return db.scoreStatDao().getAll();
+            return db.scoreStatDao().insertScoreStat(list.get(0));
         }
 
         @Override
-        protected void onPostExecute(List<ScoreStat> directors) {
-            super.onPostExecute(directors);
+        protected void onPostExecute(Long id) {
+            super.onPostExecute(id);
+
+            DbAddGuesses dbAddGuesses = new DbAddGuesses();
+            dbAddGuesses.execute(id);
+        }
+
+    }
+
+    class DbAddGuesses extends AsyncTask<Long, Integer, Boolean> {
+        @Override
+        protected Boolean doInBackground(Long... ids) {
+            Long id = ids[0];
+
+            ScoreStatDatabase db = DbTools.getDbContext(new WeakReference<>(GuessPlaceActivity.this));
+            List<Guess> list = new ArrayList<>();
+            for (PlaceModel placeModel : placeModelList) {
+                list.add(new Guess(id,
+                        (float) placeModel.correctPlace.latitude,
+                        (float) placeModel.correctPlace.longitude,
+                        (float) placeModel.guessedPlace.latitude,
+                        (float) placeModel.guessedPlace.longitude,
+                        placeModel.score, placeModel.distance));
+            }
+            Guess[] guessArray = list.toArray(new Guess[list.size()]);
+
+            db.guessDao().insertGuesses(guessArray);
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean id) {
+            super.onPostExecute(id);
+
         }
 
     }

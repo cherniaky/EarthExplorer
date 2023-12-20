@@ -31,7 +31,7 @@ public class ScoreStatActivity extends AppCompatActivity {
         dbGetDataTask.execute();
     }
 
-    private void setAdapter(List<ScoreStat> dataList) {
+    private void setAdapter(List<StatWithGuesses> dataList) {
         RecyclerView recyclerView = findViewById(R.id.rv_stats_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -39,18 +39,18 @@ public class ScoreStatActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
-    class DbGetData extends AsyncTask<Void, Integer, List<ScoreStat>> {
+    class DbGetData extends AsyncTask<Void, Integer, List<StatWithGuesses>> {
 
         @Override
-        protected List<ScoreStat> doInBackground(Void... voids) {
+        protected List<StatWithGuesses> doInBackground(Void... voids) {
             ScoreStatDatabase db = DbTools.getDbContext(new WeakReference<>(ScoreStatActivity.this));
-            List<ScoreStat> data = db.scoreStatDao().getAll();
+            List<StatWithGuesses> data = db.statWithGuessesDao().getStatsWithGuesses();
 
             return data;
         }
 
         @Override
-        protected void onPostExecute(List<ScoreStat> scoreStatList) {
+        protected void onPostExecute(List<StatWithGuesses> scoreStatList) {
             super.onPostExecute(scoreStatList);
 
             setAdapter(scoreStatList);

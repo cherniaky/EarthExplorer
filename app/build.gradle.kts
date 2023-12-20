@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId = "sk.tuke.earthexplorer"
-        minSdk = 26
+        minSdk = 34
         //noinspection EditedTargetSdkVersion
         targetSdk = 34
         versionCode = 1
