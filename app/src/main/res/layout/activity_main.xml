@@ -28,9 +28,9 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_marginTop="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
         android:text="Earth Explorer"
         android:textColor="@color/white"
@@ -59,7 +59,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         android:background="@drawable/button_bg"
         android:text="My Stats"
@@ -68,19 +68,32 @@
         android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@+id/guess_the_place_btn" />
 
-<!--    <Button-->
-<!--        android:id="@+id/start_minigame_btn"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="20dp"-->
-<!--        android:layout_marginTop="20dp"-->
-<!--        android:layout_marginEnd="20dp"-->
-<!--        android:background="@drawable/button_bg"-->
-<!--        android:text="Play minigame"-->
-<!--        android:textColor="@color/white"-->
-<!--        android:textSize="22sp"-->
-<!--        android:textStyle="bold"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/guess_the_place_btn" />-->
+    <TextView
+        android:id="@+id/random_motivation_quote"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="Loading..."
+        android:textSize="22sp"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@+id/my_stats_btn" />
+
+
+    <!--    <Button-->
+    <!--        android:id="@+id/start_minigame_btn"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginStart="20dp"-->
+    <!--        android:layout_marginTop="20dp"-->
+    <!--        android:layout_marginEnd="20dp"-->
+    <!--        android:background="@drawable/button_bg"-->
+    <!--        android:text="Play minigame"-->
+    <!--        android:textColor="@color/white"-->
+    <!--        android:textSize="22sp"-->
+    <!--        android:textStyle="bold"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/guess_the_place_btn" />-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

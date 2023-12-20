@@ -43,6 +43,9 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment:2.7.3")
     implementation("androidx.navigation:navigation-ui:2.7.3")
 
+    implementation("com.squareup.retrofit2:retrofit:2.4.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.4.0")
+
     var room_version = "1.1.1"
     implementation("android.arch.persistence.room:runtime:$room_version")
     annotationProcessor("android.arch.persistence.room:compiler:$room_version")
