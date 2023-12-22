@@ -1,16 +1,24 @@
 package sk.tuke.earthexplorer;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -59,6 +67,19 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, SignUpActivity.class);
             startActivity(intent);
         }
+
+        final StorageReference ref = FirebaseStorage.getInstance().getReference().child("app_icon.jpg");
+        ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                ImageView imageView = (ImageView) findViewById(R.id.imageView);
+                Glide.with(MainActivity.this).load(uri).into(imageView);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+            }
+        });
 
         Button guessButton = (Button) findViewById(R.id.guess_the_place_btn);
         Button statsButton = (Button) findViewById(R.id.my_stats_btn);
