@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "513431036867",
+    "project_id": "vmir-400520",
+    "storage_bucket": "vmir-400520.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:513431036867:android:ed344008c5a63ff6689376",
+        "android_client_info": {
+          "package_name": "sk.tuke.earthexplorer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "513431036867-k8dkb4f1aqcgl0qq64d0npelovvs0v78.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "sk.tuke.earthexplorer",
+            "certificate_hash": "9601cc0cc9663a97cf0dac70d17e5ad7658f476e"
+          }
+        },
+        {
+          "client_id": "513431036867-si6tf38fn176r3m1494ouvt0upkq1ob7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8aLN2blZNvxcC1-Ox3juDZ-PWjX1PyVQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "513431036867-si6tf38fn176r3m1494ouvt0upkq1ob7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

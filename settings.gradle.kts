@@ -12,7 +12,7 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
- 
+
 rootProject.name = "Earth Explorer"
 include(":app")
  

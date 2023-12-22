@@ -1,5 +1,6 @@
 plugins {
     id("com.android.application")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -34,6 +35,13 @@ android {
 }
 
 dependencies {
+    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
+    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.android.gms:play-services-auth:20.7.0")
+
+//    implementation("com.firebaseui:firebase-ui-auth:7.2.0")
+//    implementation("com.facebook.android:facebook-android-sdk:8.x")
 
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.10.0")
@@ -45,8 +53,6 @@ dependencies {
 
     implementation("com.squareup.retrofit2:retrofit:2.4.0")
     implementation("com.squareup.retrofit2:converter-gson:2.4.0")
-
-    implementation("com.google.firebase:firebase-auth")
 
     var room_version = "1.1.1"
     implementation("android.arch.persistence.room:runtime:$room_version")
