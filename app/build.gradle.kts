@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId = "sk.tuke.earthexplorer"
-        minSdk = 34
+        minSdk = 28
         //noinspection EditedTargetSdkVersion
         targetSdk = 34
         versionCode = 1
@@ -45,6 +45,8 @@ dependencies {
 
     implementation("com.squareup.retrofit2:retrofit:2.4.0")
     implementation("com.squareup.retrofit2:converter-gson:2.4.0")
+
+    implementation("com.google.firebase:firebase-auth")
 
     var room_version = "1.1.1"
     implementation("android.arch.persistence.room:runtime:$room_version")

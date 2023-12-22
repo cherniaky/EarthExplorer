@@ -16,8 +16,8 @@ class FamousPlacesData {
             new LatLng(49.059687, 20.293617),
             new LatLng(48.146485, 17.125025),
             new LatLng(49.082467, 19.307795),
-            new LatLng(48.996179, 21.241596)
-//            new LatLng(48.698067, 21.221640) lunik
+            new LatLng(48.996179, 21.241596),
+            new LatLng(48.698067, 21.221640) // lunik
 //            Famous places
 //            new LatLng(40.690667, -74.046202),
 //            new LatLng(48.858994, 2.293695),
