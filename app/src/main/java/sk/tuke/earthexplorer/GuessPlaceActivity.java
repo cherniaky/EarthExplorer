@@ -20,6 +20,9 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.SupportStreetViewPanoramaFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.lang.ref.WeakReference;
 import java.time.LocalDate;
@@ -236,7 +239,7 @@ public class GuessPlaceActivity extends AppCompatActivity {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String formattedDate = today.format(formatter);
         long now = new Date().getTime();
-        addDataTask.execute(new ScoreStat("you", formattedDate, totalScore, (int) ((now - start) / 1000)));
+        addDataTask.execute(new ScoreStat(FirebaseAuth.getInstance().getCurrentUser().getEmail(), formattedDate, totalScore, (int) ((now - start) / 1000)));
 
         Intent intent = new Intent(GuessPlaceActivity.this, SummaryActivity.class);
         intent.putExtra("totalScore", totalScore);
@@ -260,6 +263,13 @@ public class GuessPlaceActivity extends AppCompatActivity {
         protected void onPostExecute(Long id) {
             super.onPostExecute(id);
 
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection("scoreStats")
+                    .document(id.toString())
+                    .set(new ScoreStat(FirebaseAuth.getInstance().getCurrentUser().getEmail(),
+                            new Date().toString(), totalScore,
+                            (int) ((new Date().getTime() - start) / 1000)));
+
             DbAddGuesses dbAddGuesses = new DbAddGuesses();
             dbAddGuesses.execute(id);
         }
@@ -282,6 +292,14 @@ public class GuessPlaceActivity extends AppCompatActivity {
                         placeModel.score, placeModel.distance));
             }
             Guess[] guessArray = list.toArray(new Guess[list.size()]);
+
+            FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+            for (Guess guess : guessArray) {
+                firestore.collection("scoreStats")
+                        .document(id.toString())
+                        .collection("guesses")
+                        .add(guess);
+            }
 
             db.guessDao().insertGuesses(guessArray);
             return true;

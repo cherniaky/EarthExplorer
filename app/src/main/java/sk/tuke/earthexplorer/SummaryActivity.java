@@ -70,6 +70,7 @@ public class SummaryActivity extends AppCompatActivity {
         binding.btnMainMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                startActivity(new Intent(SummaryActivity.this, MainActivity.class));
                 finish();
             }
         });

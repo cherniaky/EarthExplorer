@@ -12,14 +12,24 @@ import com.google.android.gms.maps.model.LatLng;
 
 @Entity
 public class Guess {
+    public Guess() {
+        setStatId(0);
+        setCorrectLat(0);
+        setCorrectLng(0);
+        setGuessedLat(0);
+        setGuessedLng(0);
+        setScore(0);
+        setDistance(0);
+    }
+
     public Guess(long statId, float correctLat, float correctLng, float guessedLat, float guessedLng, int score, int distance) {
-        this.statId = statId;
-        this.correctLat = correctLat;
-        this.correctLng = correctLng;
-        this.guessedLat = guessedLat;
-        this.guessedLng = guessedLng;
-        this.score = score;
-        this.distance = distance;
+        setStatId(statId);
+        setCorrectLat(correctLat);
+        setCorrectLng(correctLng);
+        setGuessedLat(guessedLat);
+        setGuessedLng(guessedLng);
+        setScore(score);
+        setDistance(distance);
     }
 
     @PrimaryKey(autoGenerate = true)

@@ -8,6 +8,12 @@ import java.util.Date;
 
 @Entity
 public class ScoreStat {
+    public ScoreStat() {
+        setUser("");
+        setDate("");
+        setScore(0);
+        setTime(0);
+    }
     public ScoreStat(String user, String date, Integer score, Integer time) {
         setUser(user);
         setDate(date);
